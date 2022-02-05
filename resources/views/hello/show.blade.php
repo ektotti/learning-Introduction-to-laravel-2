@@ -1,18 +1,19 @@
 @extends('layouts.helloapp')
 
-@section('title', 'Index')
+@section('title', 'detail')
 
 @section('menubar')
     @parent
-    インデックスページ
+    詳細ページ
 @endsection
 
 @section('content')
 <p>データベースの扱い方</p>
 <table>
-<tr><th>Name</th><th>Mail</th><th>Age</th></tr>
-@foreach($items as $item)
+<tr><th>Id</th><th>Name</th><th>Mail</th><th>Age</th></tr>
+@foreach( $items as $item )
 <tr>
+    <td>{{$item->id}}</td>
     <td>{{$item->name}}</td>
     <td>{{$item->mail}}</td>
     <td>{{$item->age}}</td>
