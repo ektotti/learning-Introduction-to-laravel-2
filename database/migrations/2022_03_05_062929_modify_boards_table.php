@@ -28,9 +28,6 @@ class ModifyBoardsTable extends Migration
      */
     public function down()
     {
-        schema::table('boards', function(Blueprint $table)
-        {
-            $table->dropForeign(('boards_person_id_foreign'));
-        });
+        //
     }
 }

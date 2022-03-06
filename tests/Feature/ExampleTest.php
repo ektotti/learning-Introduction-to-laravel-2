@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\PeopleSeeder;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -14,8 +17,10 @@ class ExampleTest extends TestCase
      */
     public function test_example()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        \App\Models\Person::factory()->upper()->count(10)->create();
+        $person = \App\Models\Person::find(1);
+        $data = $person->toArray();
+        print_r($data);
+        $this->assertDatabaseHas('people', $data);
     }
 }

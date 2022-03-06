@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Person;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PersonController extends Controller
 {
     public function index(Request $request)
     {
-        $hasItems = Person::has('boards')->get();
-        $doesntHaveItems = Person::doesntHave('boards')->get();
-        return view('person.index', compact('hasItems', 'doesntHaveItems'));
+        $user = Auth::user();
+
+        $items = Person::orderBy('name', 'desc')->paginate(3);
+        return view('person.index', compact('user', 'items'));
     }
 
     public function find(Request $request)

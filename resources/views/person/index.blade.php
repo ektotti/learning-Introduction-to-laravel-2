@@ -9,30 +9,23 @@
 
 @section('content')
 <p>データベースの扱い方</p>
-<table>
-<tr><th>Name</th><th>Mail</th><th>Age</th></tr>
-@foreach($hasItems as $hasItem)
-<tr>
-    <td>{{$hasItem->name}}</td>
-    <td>{{$hasItem->mail}}</td>
-    <td>{{$hasItem->age}}</td>
-    @foreach($hasItem->boards as $board)
-    <td>{{$board->title}}</td>
-    @endforeach
-</tr>
-@endforeach
-</table>
-<div style="margin: 10px;"></div>
-<table>
-<tr><th>Name</th><th>Mail</th><th>Age</th></tr>
-@foreach($doesntHaveItems as $doesntHaveItem)
-<tr>
-    <td>{{$doesntHaveItem->name}}</td>
-    <td>{{$doesntHaveItem->mail}}</td>
-    <td>{{$doesntHaveItem->age}}</td>
-</tr>
-@endforeach
-</table>
+@if(Auth::check())
+ <p>{{$user->name}}がログイン中です。</p>
+    <table>
+        <tr><th><a href="/laravelintroduction/person?sort=name">Name</a></th><th><a href="/laravelintroduction/person?sort=mail">Mail</a></th><th><a href="/laravelintroduction/person?sort=age">Age</a></th></tr>
+        @foreach($items as $item)
+        <tr>
+            <td>{{$item->name}}</td>
+            <td>{{$item->mail}}</td>
+            <td>{{$item->age}}</td>
+        </tr>
+        @endforeach
+    </table>
+    {{$items->links()}}
+@else
+ <p>ログインしておりません。</p>
+@endif
+
 @endsection
 
 @section('footer')

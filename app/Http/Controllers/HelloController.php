@@ -8,14 +8,20 @@ use App\Http\Requests\HelloRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Person;
+use App\MyClasses\MyService;
 
 class HelloController extends Controller
 {
-    public function index(Request $request)
+    public function index(MyService $myservice, int $id = -1)
     {
-        $items = DB::table('people')->get();
-        return view('hello.index',['items'=>$items]);
+        $myservice->setId($id);
+        $data = [
+            'msg'=> $myservice->say(),
+            'data'=> $myservice->alldata()
+        ];
+        return view('hello.index', $data);
     }
+
 
     public function show(Request $request)
     {
@@ -82,5 +88,23 @@ class HelloController extends Controller
         $id = $request->id;
         DB::table('people')->where('id', $id)->delete();
         return redirect('/hello');
+    }
+
+    public function rest(Request $request)
+    {
+        return view('hello.rest');
+    }
+
+    public function sesget(Request $request)
+    {
+        $ses_data = $request->session()->get('msg');
+        return view('hello.session', ['session_data' => $ses_data]);
+    }
+
+    public function sesput(Request $request)
+    {
+        $msg = $request->input;
+        session()->put('msg', $msg);
+        return redirect('hello/session');
     }
 }
